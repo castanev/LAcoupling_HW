@@ -1,5 +1,7 @@
-__pycache__
+__pycache__/
 ERA*
 output_*
 error_*
-ci/data/
+
+# Generated mock NetCDFs from .github/ci/make_mock_data.py and 0_data.py
+.github/ci/data/

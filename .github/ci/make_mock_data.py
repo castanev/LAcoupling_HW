@@ -7,8 +7,8 @@ import xarray as xr
 import yaml
 from netCDF4 import Dataset
 
-ROOT = Path(__file__).resolve().parents[1]
-CONFIG = ROOT / "ci" / "config_ci.yaml"
+ROOT = Path(__file__).resolve().parents[2]
+CONFIG = Path(__file__).resolve().parent / "config_ci.yaml"
 
 
 def save_nc_3d(path, var, lats, lons, dates_str, var_str):

@@ -8,7 +8,8 @@ permissions:
   contents: read
 
 jobs:
-  test:
+  data:
+    name: Data
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -23,7 +24,7 @@ jobs:
 
       - uses: mamba-org/setup-micromamba@v2
         with:
-          environment-file: ci/environment.yml
+          environment-file: .github/ci/environment.yml
           cache-environment: true
 
       - name: Match cluster ncrcat path and dummy module
@@ -38,16 +39,48 @@ jobs:
           echo "${HOME}/bin" >> "$GITHUB_PATH"
 
       - name: Create mock inputs for 0_data.py
-        run: python ci/make_mock_data.py
+        run: python .github/ci/make_mock_data.py
 
       - name: Run 0_data.py
-        run: python 0_data.py --config ci/config_ci.yaml
+        run: python 0_data.py --config .github/ci/config_ci.yaml
+
+      - name: Check data outputs
+        run: |
+          test -f .github/ci/data/outputs/H_GLEAM_US.nc
+          test -f .github/ci/data/outputs/daily_anoma_window_SMs_GLEAM_US.nc
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: data-outputs
+          path: .github/ci/data/outputs/
+
+  coupling:
+    name: Coupling
+    needs: data
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -el {0}
+    env:
+      MPLBACKEND: Agg
+      OMP_NUM_THREADS: 1
+      MKL_NUM_THREADS: 1
+      OPENBLAS_NUM_THREADS: 1
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: mamba-org/setup-micromamba@v2
+        with:
+          environment-file: .github/ci/environment.yml
+          cache-environment: true
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: data-outputs
+          path: .github/ci/data/outputs/
 
       - name: Run 1_coupling.py
-        run: python 1_coupling.py --config ci/config_ci.yaml
+        run: python 1_coupling.py --config .github/ci/config_ci.yaml
 
-      - name: Check chained outputs
-        run: |
-          test -f ci/data/outputs/H_GLEAM_US.nc
-          test -f ci/data/outputs/daily_anoma_window_SMs_GLEAM_US.nc
-          test -f ci/data/outputs/sensitivity_index_SI_H_GLEAM_US.nc
+      - name: Check coupling output
+        run: test -f .github/ci/data/outputs/sensitivity_index_SI_H_GLEAM_US.nc
