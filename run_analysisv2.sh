@@ -83,7 +83,8 @@ set echo
   #   --path_case /home/castanev/land_atmosphere/ERA5_P95_US_detrended_object/ \
   #   --global_mean_file /depot/wanglei/data/Reanalysis/ERA5/Heat_waves/series_globalMean_TS_daily.nc \
   #   --global_mean_var t
-  python3 1_coupling.py --name_land $name_land --case $case --region $region --path_case_land $path_case_land --path_file_SMrz $path_file_SMrz --path_file_SMs $path_file_SMs --path_file_E $path_file_E --path_file_H $path_file_H --path_outputs $path_outputs_land 
+  # python3 1_coupling.py --name_land $name_land --case $case --region $region --path_case_land $path_case_land --path_file_SMrz $path_file_SMrz --path_file_SMs $path_file_SMs --path_file_E $path_file_E --path_file_H $path_file_H --path_outputs $path_outputs_land 
+  python3 1_coupling.py --config config_v2.yaml
   # python3 2_fluxes_hw.py --name $name --name_land $name_land --case $case --region $region --path_case $path_case --path_file_SMs $path_file_SMs --path_file_SMrz $path_file_SMrz --path_file_E $path_file_E --path_file_H $path_file_H --path_file_EF $path_file_EF --path_file_t $t_file --initial_year $initial_year --path_outputs $path_outputs
   # python3 3_breakpoints_optimized_LE.py --name_land $name_land --path_file_SMs $path_file_SMs --path_file_E $path_file_E --path_outputs $path_outputs_land
   # python3 4_analysis_regimes.py --name $name --name_land $name_land --case $case --region $region --path_case $path_case_land --path_case_land $path_case_land --path_file_SMs $path_file_SMs --path_file_t $t_file --path_file_t_anom $t_file_anoma --initial_year $initial_year --path_outputs $path_outputs_land
