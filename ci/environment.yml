@@ -1,0 +1,14 @@
+name: ci
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - numpy
+  - pandas
+  - xarray
+  - netcdf4
+  - pyyaml
+  - scipy
+  - matplotlib
+  - cartopy
+  - dask

@@ -2,3 +2,4 @@ __pycache__
 ERA*
 output_*
 error_*
+ci/data/
