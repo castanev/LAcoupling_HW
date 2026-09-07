@@ -22,13 +22,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: mamba-org/setup-micromamba@v2
+      - uses: mamba-org/setup-micromamba@v3
         with:
           environment-file: .github/ci/environment.yml
           cache-environment: true
 
       - name: Match cluster ncrcat path and dummy module
         run: |
+          sudo apt-get update
+          sudo apt-get install -y nco
           sudo mkdir -p /apps/spack/negishi/apps/nco/5.0.1-gcc-12.2.0-f3lr7i3/bin
           sudo ln -sf "$(which ncrcat)" /apps/spack/negishi/apps/nco/5.0.1-gcc-12.2.0-f3lr7i3/bin/ncrcat
           sudo mkdir -p /home/castanev/land_atmosphere/Figures
@@ -69,7 +71,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: mamba-org/setup-micromamba@v2
+      - uses: mamba-org/setup-micromamba@v3
         with:
           environment-file: .github/ci/environment.yml
           cache-environment: true

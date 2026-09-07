@@ -12,4 +12,3 @@ dependencies:
   - matplotlib
   - cartopy
   - dask
-  - nco=5.0.1
