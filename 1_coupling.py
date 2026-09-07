@@ -16,44 +16,24 @@ import pandas as pd
 import random 
 import xarray as xr
 import argparse
+import yaml
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--config', type=str, default=None, help='YAML config file (CLI flags override)')
-parser.add_argument('--name_land', type=str, default=None)
-parser.add_argument('--case', type=str, default=None)
-parser.add_argument('--region', type=str, default=None)
-parser.add_argument('--path_case_land', type=str, default=None)
-parser.add_argument('--path_file_SMrz', type=str, default=None)
-parser.add_argument('--path_file_SMs', type=str, default=None)
-parser.add_argument('--path_file_E', type=str, default=None)
-parser.add_argument('--path_file_H', type=str, default=None)
-parser.add_argument('--path_outputs', type=str, default=None)
+parser.add_argument('--config', type=str, default='config_v2.yaml')
 args = parser.parse_args()
+with open(args.config) as f:
+    cfg = yaml.safe_load(f) or {}
 
-_required = ('name_land', 'case', 'region', 'path_case_land', 'path_file_SMrz',
-             'path_file_SMs', 'path_file_E', 'path_file_H', 'path_outputs')
-if args.config:
-    import yaml
-    with open(args.config) as f:
-        cfg = yaml.safe_load(f) or {}
-    for k in _required:
-        if getattr(args, k) is None:
-            v = cfg.get('path_outputs_land' if k == 'path_outputs' else k, cfg.get(k))
-            setattr(args, k, v)
-_missing = [f'--{k}' for k in _required if getattr(args, k) is None]
-if _missing:
-    parser.error('the following arguments are required: ' + ', '.join(_missing))
-
-name_land = args.name_land
-case = args.case
-region = args.region
-path_case_land = args.path_case_land
-path_file_SMrz = args.path_file_SMrz
-path_file_SMs = args.path_file_SMs
-path_file_E = args.path_file_E
-path_file_H = args.path_file_H
-path_outputs = args.path_outputs
+name_land = cfg['name_land']
+case = cfg['case']
+region = cfg['region']
+path_case_land = cfg['path_case_land']
+path_file_SMrz = cfg['path_file_SMrz']
+path_file_SMs = cfg['path_file_SMs']
+path_file_E = cfg['path_file_E']
+path_file_H = cfg['path_file_H']
+path_outputs = cfg.get('path_outputs_land', cfg['path_outputs'])
 
 
 if region == 'US':
