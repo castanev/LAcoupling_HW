@@ -1,0 +1,33 @@
+ Copyright (C) 1995-2019 - All Rights Reserved
+ University Corporation for Atmospheric Research
+ NCAR Command Language Version 6.6.2
+ The use of this software is governed by a License Agreement.
+ See http://www.ncl.ucar.edu/ for more details.
+(0)	% var=16.8269
+(1)	% var=11.2486
+(2)	% var=7.82571
+(3)	% var=4.48
+(4)	% var=3.52596
+
+
+
+MAY MONTHLY ANALYSIS
+(0)	% var=21.1863
+(1)	% var=15.8701
+(2)	% var=8.08622
+(3)	% var=4.95013
+(4)	% var=4.55931
+
+
+My interest: 
+- Positive phase of PC3
+- Negative phase of PC4
+
+
+
+Daily anoma smoothed (15 rolling mean)
+(0)	% var=20.7621
+(1)	% var=14.307
+(2)	% var=8.07851
+(3)	% var=4.53871
+(4)	% var=4.13178
