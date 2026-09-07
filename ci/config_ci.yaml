@@ -19,16 +19,16 @@ path_case: ci/data/case_hw/
 path_outputs: ci/data/outputs_hw/
 
 name_land: GLEAM
-path_data: ci/data/
+path_data: ci/data/raw/
 path_outputs_land: ci/data/outputs/
 path_temp: ci/data/outputs/
 path_outputs_case: ci/data/outputs/CI_mock/
 path_case_land: ci/data/case/
-path_file_SMrz: ci/data/SMrz_GLEAM_US.nc
-path_file_SMs: ci/data/SMs_GLEAM_US.nc
+path_file_SMrz: ci/data/outputs/SMrz_GLEAM_US.nc
+path_file_SMs: ci/data/outputs/SMs_GLEAM_US.nc
 path_file_EF: ci/data/outputs/EF_GLEAM_US.nc
-path_file_E: ci/data/E_GLEAM_US.nc
-path_file_H: ci/data/H_GLEAM_US.nc
+path_file_E: ci/data/outputs/E_GLEAM_US.nc
+path_file_H: ci/data/outputs/H_GLEAM_US.nc
 
 keep_most_lasting: true
 in_land: true

@@ -1,0 +1,53 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -el {0}
+    env:
+      MPLBACKEND: Agg
+      OMP_NUM_THREADS: 1
+      MKL_NUM_THREADS: 1
+      OPENBLAS_NUM_THREADS: 1
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: mamba-org/setup-micromamba@v2
+        with:
+          environment-file: ci/environment.yml
+          cache-environment: true
+
+      - name: Match cluster ncrcat path and dummy module
+        run: |
+          sudo mkdir -p /apps/spack/negishi/apps/nco/5.0.1-gcc-12.2.0-f3lr7i3/bin
+          sudo ln -sf "$(which ncrcat)" /apps/spack/negishi/apps/nco/5.0.1-gcc-12.2.0-f3lr7i3/bin/ncrcat
+          sudo mkdir -p /home/castanev/land_atmosphere/Figures
+          sudo chmod -R a+rwx /home/castanev
+          mkdir -p "${HOME}/bin"
+          printf '%s\n' '#!/bin/sh' 'exit 0' > "${HOME}/bin/module"
+          chmod +x "${HOME}/bin/module"
+          echo "${HOME}/bin" >> "$GITHUB_PATH"
+
+      - name: Create mock inputs for 0_data.py
+        run: python ci/make_mock_data.py
+
+      - name: Run 0_data.py
+        run: python 0_data.py --config ci/config_ci.yaml
+
+      - name: Run 1_coupling.py
+        run: python 1_coupling.py --config ci/config_ci.yaml
+
+      - name: Check chained outputs
+        run: |
+          test -f ci/data/outputs/H_GLEAM_US.nc
+          test -f ci/data/outputs/daily_anoma_window_SMs_GLEAM_US.nc
+          test -f ci/data/outputs/sensitivity_index_SI_H_GLEAM_US.nc

@@ -140,8 +140,8 @@ for var in ['H']:
 # # ======================================================= SMrz ====================================================================
 variable_SMrz = 'SMrz'
 path_file_SMrz = f'{path_outputs}{variable_SMrz}_{name_land}_US.nc'
-# variable_SMs = 'SMs'
-# path_file_SMs = f'{path_outputs}{variable_SMs}_{name_land}_US.nc'
+variable_SMs = 'SMs'
+path_file_SMs = f'{path_outputs}{variable_SMs}_{name_land}_US.nc'
 # ======================================================= Calculating anomalies ====================================================================
 # for var, path_file in zip([variable_SMs, variable_EF, variable_SMrz], [path_file_SMs, path_file_EF, path_file_H]):
 for var, path_file in zip([variable_SMs], [path_file_SMs]):
