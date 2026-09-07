@@ -1,5 +1,6 @@
 from Functions import *
 import argparse
+import yaml
 import numpy as np
 from netCDF4 import Dataset
 import datetime as dt
@@ -14,20 +15,17 @@ from scipy import stats
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--name_land', type=str, required=True)
-parser.add_argument('--case', type=str, required=True)
-parser.add_argument('--path_case', type=str, required=True)
-parser.add_argument('--path_outputs', type=str, required=True)
-parser.add_argument('--topography', type=bool, required=True)
-parser.add_argument('--initial_year', type=int, required=True)
+parser.add_argument('--config', type=str, default='config_v2.yaml')
 args = parser.parse_args()
+with open(args.config) as f:
+    cfg = yaml.safe_load(f) or {}
 
-name_land = args.name_land
-case = args.case
-path_case = args.path_case
-path_outputs = args.path_outputs
-topography = args.topography
-initial_year = args.initial_year
+name_land = cfg['name_land']
+case = cfg['case']
+path_case = cfg['path_case_land']
+path_outputs = cfg.get('path_outputs_land', cfg['path_outputs'])
+topography = cfg['topography']
+initial_year = cfg['initial_year']
 # |PC*| threshold. 0.5 is mild (~1/3 of years each side if near-Gaussian).
 # 0.75–1.0 gives clearer composites with fewer years.
 pc_thresh = 0.75

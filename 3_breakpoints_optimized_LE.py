@@ -18,6 +18,7 @@ from statsmodels.tsa.stattools import acf
 import netCDF4 as nc
 import warnings
 import argparse
+import yaml
 import datetime as dt
 import multiprocessing as mp
 from concurrent.futures import ProcessPoolExecutor
@@ -26,16 +27,15 @@ warnings.filterwarnings("ignore")
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--name_land', type=str, required=True)
-parser.add_argument('--path_file_SMs', type=str, required=True)
-parser.add_argument('--path_file_E', type=str, required=True)
-parser.add_argument('--path_outputs', type=str, required=True)
+parser.add_argument('--config', type=str, default='config_v2.yaml')
 args = parser.parse_args()
+with open(args.config) as f:
+    cfg = yaml.safe_load(f) or {}
 
-name_land = args.name_land
-path_file_SMs = args.path_file_SMs
-path_file_E = args.path_file_E
-path_outputs = args.path_outputs
+name_land = cfg['name_land']
+path_file_SMs = cfg['path_file_SMs']
+path_file_E = cfg['path_file_E']
+path_outputs = cfg.get('path_outputs_land', cfg['path_outputs'])
 
 var_SMs = 'SMs'
 var_E = 'E'

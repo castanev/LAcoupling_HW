@@ -3,6 +3,7 @@ import xarray as xr
 import numpy as np
 import sys
 import argparse
+import yaml
 from netCDF4 import Dataset
 from Functions import create_directory
 from Functions import save_nc_3d
@@ -25,19 +26,16 @@ create_directory(path_figures)
 
 # ========================== PATHS & SETTINGS ==========================
 parser = argparse.ArgumentParser()
-parser.add_argument('--name_land', type=str, required=True)
-parser.add_argument('--path_data', type=str, required=True)
-parser.add_argument('--path_outputs', type=str, required=True)
-parser.add_argument('--path_temp', type=str, required=True)
-parser.add_argument('--initial_year', type=int, required=False)
-
-
+parser.add_argument('--config', type=str, default='config_v2.yaml')
 args = parser.parse_args()
-name_land = args.name_land
-path_data = args.path_data
-path_outputs = args.path_outputs
-path_temp = args.path_temp
-initial_year = args.initial_year
+with open(args.config) as f:
+    cfg = yaml.safe_load(f) or {}
+
+name_land = cfg['name_land']
+path_data = cfg['path_data']
+path_outputs = cfg.get('path_outputs_land', cfg['path_outputs'])
+path_temp = cfg.get('path_temp', path_outputs)
+initial_year = cfg.get('initial_year')
 
 # Helper function to extract the year from the filename
 def get_year(filename, n=0):

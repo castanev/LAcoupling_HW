@@ -4,6 +4,7 @@
 # and T'_HW is the mean temperature anomaly over the event footprint at that pixel.
 from Functions import *
 import argparse
+import yaml
 import numpy as np
 import datetime as dt
 import pandas as pd
@@ -16,35 +17,20 @@ from scipy import stats
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--name_land', type=str, required=True)
-parser.add_argument('--case', type=str, required=True)
-parser.add_argument('--path_case', type=str, required=True)
-parser.add_argument('--path_outputs', type=str, required=True)
-parser.add_argument('--topography', type=bool, required=True)
-parser.add_argument('--initial_year', type=int, required=True)
-parser.add_argument(
-    '--lead_start', type=int, default=5,
-    help='Earliest lead day before onset (positive; default 5 → day t0−5)',
-)
-parser.add_argument(
-    '--lead_end', type=int, default=1,
-    help='Latest lead day before onset (positive; default 1 → day t0−1)',
-)
-parser.add_argument(
-    '--min_n', type=int, default=8,
-    help='Minimum number of events per pixel to estimate β',
-)
+parser.add_argument('--config', type=str, default='config_v2.yaml')
 args = parser.parse_args()
+with open(args.config) as f:
+    cfg = yaml.safe_load(f) or {}
 
-name_land = args.name_land
-case = args.case
-path_case = args.path_case
-path_outputs = args.path_outputs
-topography = args.topography
-initial_year = args.initial_year
-lead_start = int(args.lead_start)
-lead_end = int(args.lead_end)
-min_n = int(args.min_n)
+name_land = cfg['name_land']
+case = cfg['case']
+path_case = cfg['path_case_land']
+path_outputs = cfg.get('path_outputs_land', cfg['path_outputs'])
+topography = cfg['topography']
+initial_year = cfg['initial_year']
+lead_start = int(cfg['lead_start'])
+lead_end = int(cfg['lead_end'])
+min_n = int(cfg['min_n'])
 if lead_start < lead_end or lead_start < 1 or lead_end < 1:
     raise ValueError(
         f'Need lead_start >= lead_end >= 1 (got start={lead_start}, end={lead_end})'

@@ -14,40 +14,31 @@ import re
 from scipy.ndimage import uniform_filter
 from scipy.interpolate import RectBivariateSpline, InterpolatedUnivariateSpline
 import argparse
+import yaml
 import xarray as xr
 from scipy.stats import gaussian_kde
 path_ncr = '/apps/spack/negishi/apps/nco/5.0.1-gcc-12.2.0-f3lr7i3/bin/ncrcat'
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--name', type=str, required=True)
-parser.add_argument('--name_land', type=str, required=True)
-parser.add_argument('--case', type=str, required=True)
-parser.add_argument('--region', type=str, required=True)
-parser.add_argument('--path_case', type=str, required=True)
-parser.add_argument('--path_file_SMs', type=str, required=True)
-parser.add_argument('--path_file_SMrz', type=str, required=True)
-parser.add_argument('--path_file_E', type=str, required=True)
-parser.add_argument('--path_file_H', type=str, required=True)
-parser.add_argument('--path_file_EF', type=str, required=True)
-parser.add_argument('--path_file_t', type=str, required=True)
-parser.add_argument('--initial_year', type=int, required=True)
-parser.add_argument('--path_outputs', type=str, required=True)
+parser.add_argument('--config', type=str, default='config_v2.yaml')
 args = parser.parse_args()
+with open(args.config) as f:
+    cfg = yaml.safe_load(f) or {}
 
-name = args.name
-name_land = args.name_land
-case = args.case
-region = args.region
-path_case = args.path_case
-path_file_SMs = args.path_file_SMs
-path_file_SMrz = args.path_file_SMrz
-path_file_E = args.path_file_E
-path_file_H = args.path_file_H
-path_file_t = args.path_file_t
-path_file_EF = args.path_file_EF
-initial_year = args.initial_year
-path_outputs = args.path_outputs
+name = cfg['name']
+name_land = cfg['name_land']
+case = cfg['case']
+region = cfg['region']
+path_case = cfg['path_case']
+path_file_SMs = cfg['path_file_SMs']
+path_file_SMrz = cfg['path_file_SMrz']
+path_file_E = cfg['path_file_E']
+path_file_H = cfg['path_file_H']
+path_file_t = cfg['path_file_t']
+path_file_EF = cfg['path_file_EF']
+initial_year = cfg['initial_year']
+path_outputs = cfg['path_outputs']
 
 
 if region == 'US':

@@ -12,6 +12,7 @@ Matches 1_heatwaves_detection_teng_clusters_object.py.
 from __future__ import annotations
 
 import argparse
+import yaml
 import datetime as dt
 import os
 
@@ -37,29 +38,28 @@ MIN_CLUSTER_AREA = 100000
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--name', type=str, required=True)
-    parser.add_argument('--case', type=str, required=True)
-    parser.add_argument('--percentile', type=float, required=True)
-    parser.add_argument('--region', type=str, required=True)
-    parser.add_argument('--t_file', type=str, required=True)
-    parser.add_argument('--t_file_anoma', type=str, required=True)
-    parser.add_argument('--var', type=str, required=True)
-    parser.add_argument('--seasons', type=bool, required=True)
-    parser.add_argument('--initial_year', type=int, required=True)
-    parser.add_argument('--path_case', type=str, required=True)
-    parser.add_argument('--global_mean_file', type=str, default=None)
-    parser.add_argument('--global_mean_var', type=str, default=None)
-    parser.add_argument('--events_csv', type=str, default=None)
-    parser.add_argument(
-        '--years',
-        type=int,
-        nargs='+',
-        default=[2012,2015, 2021],
-        help='Calendar years to plot (e.g. --years 2012 2021)',
+    parser.add_argument('--config', type=str, default='config_v2.yaml')
+    args = parser.parse_args()
+    with open(args.config) as f:
+        cfg = yaml.safe_load(f) or {}
+    return argparse.Namespace(
+        name=cfg['name'],
+        case=cfg['case'],
+        percentile=cfg['percentile'],
+        region=cfg['region'],
+        t_file=cfg['t_file'],
+        t_file_anoma=cfg['t_file_anoma'],
+        var=cfg['var'],
+        seasons=cfg['seasons'],
+        initial_year=cfg['initial_year'],
+        path_case=cfg['path_case_land'],
+        global_mean_file=cfg.get('global_mean_file'),
+        global_mean_var=cfg.get('global_mean_var'),
+        events_csv=cfg.get('events_csv'),
+        years=cfg.get('years', [2012, 2015, 2021]),
+        topography=cfg.get('topography', True),
+        max_events=cfg.get('max_events'),
     )
-    parser.add_argument('--topography', type=bool, default=True)
-    parser.add_argument('--max_events', type=int, default=None)
-    return parser.parse_args()
 
 
 def conus_map_bounds():

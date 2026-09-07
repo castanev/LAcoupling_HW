@@ -11,6 +11,7 @@
 
 from Functions import *
 import argparse
+import yaml
 from netCDF4 import Dataset
 import pandas as pd
 import numpy as np
@@ -39,48 +40,33 @@ from shapely.prepared import prep
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--name', type=str, required=True)
-parser.add_argument('--case', type=str, required=True)
-parser.add_argument('--percentile', type=float, required=True)
-parser.add_argument('--region', type=str, required=True)
-parser.add_argument('--t_file', type=str, required=True)
-parser.add_argument('--t_file_anoma', type=str, required=True)
-parser.add_argument('--var', type=str, required=True)
-parser.add_argument('--seasons', type=bool, required=True)
-parser.add_argument('--topography', type=bool, required=True)
-parser.add_argument('--methodology', type=str, required=True)
-parser.add_argument('--initial_year', type=int, required=True)
-parser.add_argument('--path_case', type=str, required=True)
-parser.add_argument('--path_outputs_case', type=str, required=True)
-parser.add_argument('--global_mean_file', type=str, required=False)
-parser.add_argument('--global_mean_var', type=str, required=False)
-parser.add_argument('--keep_most_lasting', type=bool, required=False)
-parser.add_argument('--in_land', type=bool, required=False)
-parser.add_argument('--min_duration', type=int, required=False)
+parser.add_argument('--config', type=str, default='config_v2.yaml')
 args = parser.parse_args()
+with open(args.config) as f:
+    cfg = yaml.safe_load(f) or {}
 
-name = args.name
-case = args.case
-percentile = args.percentile
+name = cfg['name']
+case = cfg['case']
+percentile = cfg['percentile']
 if percentile % 1 == 0: percentile = int(percentile)
-region = args.region
-t_file = args.t_file
-t_file_anoma = args.t_file_anoma
-var = args.var
-seasons = args.seasons
-topography = args.topography
-methodology = args.methodology
-initial_year = args.initial_year
-path_case = args.path_case
-path_outputs_case = args.path_outputs_case
-global_mean_file = args.global_mean_file
-global_mean_var = args.global_mean_var
-in_land = args.in_land
+region = cfg['region']
+t_file = cfg['t_file']
+t_file_anoma = cfg['t_file_anoma']
+var = cfg['var']
+seasons = cfg['seasons']
+topography = cfg['topography']
+methodology = cfg['methodology']
+initial_year = cfg['initial_year']
+path_case = cfg['path_case_land']
+path_outputs_case = cfg['path_outputs_case']
+global_mean_file = cfg.get('global_mean_file')
+global_mean_var = cfg.get('global_mean_var')
+in_land = cfg.get('in_land')
+keep_most_lasting = cfg.get('keep_most_lasting')
 
 vel = [5, 1]
-if args.min_duration is not None:
-    min_duration = args.min_duration
-else:
+min_duration = cfg.get('min_duration')
+if min_duration is None:
     min_duration = 5
 # min_area = 535000 # [km2-->5% of US from Teng 2013 region] 
 min_area = 678000
@@ -714,7 +700,7 @@ i = 0
 while i < len(pos_day1_hw) - 1:
     # Check if events overlap (within 20 days)
     if abs((pos_day1_hw[i] + duration_hw[i]) - pos_day1_hw[i + 1]) < 20:
-        if args.keep_most_lasting == True:
+        if keep_most_lasting == True:
             print("Keeping the most lasting event")
             if duration_hw[i] > duration_hw[i + 1]:
                 duration_hw.pop(i + 1)

@@ -14,28 +14,25 @@ import re
 from scipy.ndimage import uniform_filter
 from scipy.interpolate import RectBivariateSpline, InterpolatedUnivariateSpline
 import argparse
+import yaml
 import xarray as xr
 from scipy.stats import gaussian_kde
 path_ncr = '/apps/spack/negishi/apps/nco/5.0.1-gcc-12.2.0-f3lr7i3/bin/ncrcat'
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--name', type=str, required=True)
-parser.add_argument('--name_land', type=str, required=True)
-parser.add_argument('--path_file_SMs', type=str, required=True)
-parser.add_argument('--path_file_t', type=str, required=True)
-parser.add_argument('--path_file_t_anom', type=str, required=True)
-parser.add_argument('--path_case_land', type=str, required=True)
-parser.add_argument('--path_outputs', type=str, required=True)
+parser.add_argument('--config', type=str, default='config_v2.yaml')
 args = parser.parse_args()
+with open(args.config) as f:
+    cfg = yaml.safe_load(f) or {}
 
-name = args.name
-name_land = args.name_land
-path_file_SMs = args.path_file_SMs
-path_file_t = args.path_file_t
-path_file_t_anom = args.path_file_t_anom
-path_case_land = args.path_case_land
-path_outputs = args.path_outputs
+name = cfg['name']
+name_land = cfg['name_land']
+path_file_SMs = cfg['path_file_SMs']
+path_file_t = cfg['path_file_t']
+path_file_t_anom = cfg['path_file_t_anom']
+path_case_land = cfg['path_case_land']
+path_outputs = cfg.get('path_outputs_land', cfg['path_outputs'])
 
 region = 'US'
 

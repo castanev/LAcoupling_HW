@@ -71,34 +71,23 @@ set echo
   fi
 
 
-  # python3 0_data.py --name_land $name_land --path_data $path_data_land --path_outputs $path_outputs_land --path_temp $path_outputs_land
+  # python3 0_data.py --config config_v2.yaml
   # python3 /home/castanev/RW_amplification_heatwaves/1_heatwaves_detection_teng.py --name $name --case $case --percentile $percentile --region $region --t_file $t_file --var $var_TS --seasons $seasons --topography $topography --methodology $methodology --initial_year $initial_year --path_case $path_case_land --path_outputs_case $path_outputs_case_land --global_mean_file $global_mean_file --global_mean_var $global_mean_var
-  # python3 1_heatwaves_detection_teng_clusters_object.py --name $name --case $case --percentile $percentile --region $region --t_file $t_file --t_file_anoma $t_file_anoma --var $var_TS --seasons $seasons --topography $topography --methodology $methodology --initial_year $initial_year --path_case $path_case_land --path_outputs_case $path_outputs_case_land --global_mean_file $global_mean_file --global_mean_var $global_mean_var --keep_most_lasting True
-  # python3 1_heatwaves_detection_teng_clusters_object.py --name $name --case $case --percentile $percentile --region $region --t_file $t_file --t_file_anoma $t_file_anoma --var $var_TS --seasons $seasons --topography $topography --methodology $methodology --initial_year $initial_year --path_case $path_case_land --path_outputs_case $path_outputs_case_land --global_mean_file $global_mean_file --global_mean_var $global_mean_var --in_land True
-  # python3 plot_hw_methodology_motion.py \
-  #   --name ERA5 --case ERA5_P95_US_detrended_object --percentile 95 --region US \
-  #   --t_file /depot/wanglei/data/Reanalysis/ERA5/Heat_waves/TS_ERA5.nc \
-  #   --t_file_anoma /depot/wanglei/data/Reanalysis/ERA5/Heat_waves/outputs_storm_swamp/TS_ERA5_daily_anoma_window.nc \
-  #   --var TS --seasons True --initial_year 1950 \
-  #   --path_case /home/castanev/land_atmosphere/ERA5_P95_US_detrended_object/ \
-  #   --global_mean_file /depot/wanglei/data/Reanalysis/ERA5/Heat_waves/series_globalMean_TS_daily.nc \
-  #   --global_mean_var t
+  # python3 1_heatwaves_detection_teng_clusters_object.py --config config_v2.yaml
+  # python3 plot_hw_methodology_motion.py --config config_v2.yaml
   # python3 1_coupling.py --name_land $name_land --case $case --region $region --path_case_land $path_case_land --path_file_SMrz $path_file_SMrz --path_file_SMs $path_file_SMs --path_file_E $path_file_E --path_file_H $path_file_H --path_outputs $path_outputs_land 
   python3 1_coupling.py --config config_v2.yaml
-  # python3 2_fluxes_hw.py --name $name --name_land $name_land --case $case --region $region --path_case $path_case --path_file_SMs $path_file_SMs --path_file_SMrz $path_file_SMrz --path_file_E $path_file_E --path_file_H $path_file_H --path_file_EF $path_file_EF --path_file_t $t_file --initial_year $initial_year --path_outputs $path_outputs
-  # python3 3_breakpoints_optimized_LE.py --name_land $name_land --path_file_SMs $path_file_SMs --path_file_E $path_file_E --path_outputs $path_outputs_land
-  # python3 4_analysis_regimes.py --name $name --name_land $name_land --case $case --region $region --path_case $path_case_land --path_case_land $path_case_land --path_file_SMs $path_file_SMs --path_file_t $t_file --path_file_t_anom $t_file_anoma --initial_year $initial_year --path_outputs $path_outputs_land
-  # python3 4_analysis_regimes_LE_allHWdays_regional_aroundMaxIntensity.py --name $name --name_land $name_land --case $case --region $region --path_case $path_case_land --path_case_land $path_case_land --path_file_SMs $path_file_SMs --path_file_t $t_file --path_file_t_anom $t_file_anoma --initial_year $initial_year --path_outputs $path_outputs_land
-  # python3 4_map_separation_regimes_LE.py --name $name --name_land $name_land --path_case_land $path_case_land --path_file_SMs $path_file_SMs --path_file_t $t_file --path_file_t_anom $t_file_anoma --path_outputs $path_outputs_land
-  # python3 9_analysis_EOF.py --name_land $name_land --case $case --path_case $path_case_land --path_outputs $path_outputs_land --topography $topography --initial_year $initial_year
-  # python3 9_analysis_EOF_AprMay.py --name_land $name_land --case $case --path_case $path_case_land --path_outputs $path_outputs_land --topography $topography --initial_year $initial_year
-  # python3 9_analysis_EOF_SMregimes.py --name_land $name_land --case $case --path_case $path_case_land --path_outputs $path_outputs_land --topography $topography --initial_year $initial_year
+  # python3 2_fluxes_hw.py --config config_v2.yaml
+  # python3 3_breakpoints_optimized_LE.py --config config_v2.yaml
+  # python3 4_analysis_regimes.py --config config_v2.yaml
+  # python3 4_analysis_regimes_LE_allHWdays_regional_aroundMaxIntensity.py --config config_v2.yaml
+  # python3 4_map_separation_regimes_LE.py --config config_v2.yaml
+  # python3 9_analysis_EOF.py --config config_v2.yaml
+  # python3 9_analysis_EOF_AprMay.py --config config_v2.yaml
+  # python3 9_analysis_EOF_SMregimes.py --config config_v2.yaml
   
-  # path_file_E_recurrent_vanom="/scratch/negishi/castanev/Amplification_RW/ERA5/v250_recurrent_vanom_analytic_signal_6h_NH.nc"
-  # path_file_Cp_recurrent_vanom="/scratch/negishi/castanev/Amplification_RW/ERA5/v250_Cp_recurrent_vanom_6h_NH.nc"
-  # path_file_v_recurrent_vanom="/scratch/negishi/castanev/Amplification_RW/ERA5/v250_recurrent_vanom_filtered_6h_NH.nc"
-  # python3 2_analysis_RWP_ERA5_recurrent_clusters.py --name $name --case $case --region $region --path_case $path_case_land --path_file_E $path_file_E_recurrent_vanom --path_file_Cp $path_file_Cp_recurrent_vanom --path_file_t $t_file --path_file_v $path_file_v_recurrent_vanom --initial_year $initial_year --path_outputs $path_outputs
+  # python3 2_analysis_RWP_ERA5_recurrent_clusters.py --config config_v2.yaml
 
-  # python3 5_HW_event_sensitivity_index.py --name_land $name_land --case $case --path_case $path_case_land --path_outputs $path_outputs_land --topography $topography --initial_year $initial_year --lead_start 90 --lead_end 60 --min_n 8 
-  # python3 5_HW_event_sensitivity_index_MayApr.py --name_land $name_land --case $case --path_case $path_case_land --path_outputs $path_outputs_land --topography $topography --initial_year $initial_year --apr_day_start 15 --apr_day_end 30 --min_n 8 
-  # python3 5_HW_event_sensitivity_index_MayApr_spatialmeanSM.py --name_land $name_land --case $case --path_case $path_case_land --path_outputs $path_outputs_land --topography $topography --initial_year $initial_year --apr_day_start 15 --apr_day_end 30 --min_n 8 --response events
+  # python3 5_HW_event_sensitivity_index.py --config config_v2.yaml
+  # python3 5_HW_event_sensitivity_index_MayApr.py --config config_v2.yaml
+  # python3 5_HW_event_sensitivity_index_MayApr_spatialmeanSM.py --config config_v2.yaml
